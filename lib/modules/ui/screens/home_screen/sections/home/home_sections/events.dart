@@ -1,1 +1,0 @@
-part of 'home_section_collection.dart';

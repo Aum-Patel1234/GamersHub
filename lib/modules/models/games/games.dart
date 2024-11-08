@@ -1,3 +1,4 @@
+// checksum is a key that helps to tell that there is no tampering of data if the key i have and the server gives is same
 class Games {
   final int id;
   final List<int>? ageRatings;
@@ -54,7 +55,7 @@ class Games {
   final String? versionTitle;
   final List<int>? videos;
   final List<int>? websites;
-  final String? checksum;
+  // final String? checksum;
 
   Games({
     required this.id,
@@ -112,7 +113,7 @@ class Games {
     this.versionTitle,
     this.videos,
     this.websites,
-    this.checksum,
+    // this.checksum,
   });
 
   factory Games.fromJson(Map<String, dynamic> json) {
@@ -172,7 +173,7 @@ class Games {
       versionTitle: json['version_title'],
       videos: List<int>.from(json['videos'] ?? []),
       websites: List<int>.from(json['websites'] ?? []),
-      checksum: json['checksum'],
+      // checksum: json['checksum'],
     );
   }
 
@@ -233,7 +234,7 @@ class Games {
       'version_title': versionTitle,
       'videos': videos,
       'websites': websites,
-      'checksum': checksum,
+      // 'checksum': checksum,
     };
   }
 }

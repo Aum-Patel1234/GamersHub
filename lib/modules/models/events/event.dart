@@ -13,7 +13,7 @@ class Event {
   final List<int> eventNetworks;
   final int createdAt;
   final int updatedAt;
-  final String checksum;
+  // final String checksum;
 
   Event({
     required this.id,
@@ -30,7 +30,7 @@ class Event {
     required this.eventNetworks,
     required this.createdAt,
     required this.updatedAt,
-    required this.checksum,
+    // required this.checksum,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) {
@@ -49,7 +49,7 @@ class Event {
       eventNetworks: List<int>.from(json['event_networks'] ?? []),
       createdAt: json['created_at'] ?? 0,
       updatedAt: json['updated_at'] ?? 0,
-      checksum: json['checksum'] ?? '',
+      // checksum: json['checksum'] ?? '',
     );
   }
 
@@ -69,7 +69,7 @@ class Event {
       'event_networks': eventNetworks,
       'created_at': createdAt,
       'updated_at': updatedAt,
-      'checksum': checksum,
+      // 'checksum': checksum,
     };
   }
 }

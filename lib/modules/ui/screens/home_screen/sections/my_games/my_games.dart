@@ -5,6 +5,6 @@ class MyGames extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('wishlist\n installed\n upcoming\n games that your friends play\n game companies that are installed in user mobile and in wishlist');
+    return const Text('wishlist\n installed\n upcoming\n games that your friends play\n game companies that are installed in user mobile and in wishlist');
   }
 }

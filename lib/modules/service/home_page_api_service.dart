@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:gamers_hub/modules/models/covers/cover.dart';
+import 'package:gamers_hub/modules/models/events/event.dart';
+import 'package:gamers_hub/modules/models/events/event_logo.dart';
+import 'package:gamers_hub/modules/models/events/event_network.dart';
 import 'package:gamers_hub/modules/models/games/games.dart';
 import 'package:gamers_hub/modules/models/popularity/popularity_primitive.dart';
 import 'package:gamers_hub/modules/service/api_client_id_bearer_token.dart';
@@ -102,5 +105,108 @@ class HomePageApiService {
 
     final List<dynamic> parsedData = jsonDecode(response.body);
     return parsedData.map((game) => Cover.fromJson(game)).toList();
+  }
+
+  Future<List<Event>?> getEvents()async{
+    /*
+      sort the events with respect to start_time
+      we can get event_logo by getting the event_logo parameter in event and post req with id = event_logo
+      we also have event_network endpoint where we can get the link of the resp game twitter,facebook or youtube links 
+    */
+    final ApiClientIdBearerToken instance = await ApiClientIdBearerToken.getInstance();
+    final Uri uri = Uri.parse('https://api.igdb.com/v4/events');
+
+    try{
+      final Response response = await _client.post(
+        uri,
+        headers: {
+          'Client-ID': instance.clientId,
+          'Authorization': 'Bearer ${instance.bearerToken}',
+          'Content-Type': 'application/json',
+        },
+        body: 'fields *;  where start_time > ${DateTime.now().millisecondsSinceEpoch}',     // upcoming events
+      );
+
+      if(response.statusCode != 200){
+        handleApiResponse(jsonDecode(response.body));
+        return null;
+      }
+
+      final List<dynamic> parsedData = jsonDecode(response.body);
+      return parsedData.map((event) => Event.fromJson(event)).toList();
+    }catch(e){
+      log(e.toString());
+    }
+    
+    return null;
+  }
+  
+  Future<List<EventLogo>?> getEventLogos({required List<Event> events})async{
+    final ApiClientIdBearerToken instance = await ApiClientIdBearerToken.getInstance();
+    final Uri uri = Uri.parse('https://api.igdb.com/v4/event_logos');
+
+    final List<int> eventLogos = events.map((event) => event.eventLogo).toList();
+    final String eventIDs = '(${eventLogos.join(',')})';
+
+    try{
+      final Response response = await _client.post(
+        uri,
+        headers: {
+          'Client-ID': instance.clientId,
+          'Authorization': 'Bearer ${instance.bearerToken}',
+          'Content-Type': 'application/json',
+        },
+        body: 'fields *;  where id = $eventIDs',     // upcoming events
+      );
+
+      if(response.statusCode != 200){
+        handleApiResponse(jsonDecode(response.body));
+        return null;
+      }
+
+      final List<dynamic> parsedData = jsonDecode(response.body);
+      return parsedData.map((eventLogo) => EventLogo.fromJson(eventLogo)).toList();
+    }catch(e){
+      log(e.toString());
+    }
+    
+    return null;
+  }
+
+  Future<List<EventNetwork>?> getEventNewtworks({required List<Event> events})async{
+    final ApiClientIdBearerToken instance = await ApiClientIdBearerToken.getInstance();
+    final Uri uri = Uri.parse('https://api.igdb.com/v4/event_networks');
+
+    final List<int> eventNetworks = [];
+
+    for (Event event in events) {
+      eventNetworks.addAll(event.eventNetworks);
+    }
+
+    final String eventIDs = '(${eventNetworks.join(',')})';
+
+    try{
+      final Response response = await _client.post(
+        uri,
+        headers: {
+          'Client-ID': instance.clientId,
+          'Authorization': 'Bearer ${instance.bearerToken}',
+          'Content-Type': 'application/json',
+        },
+        body: 'fields *;  where id = $eventIDs',     // upcoming events
+      );
+
+      if(response.statusCode != 200){
+        handleApiResponse(jsonDecode(response.body));
+        return null;
+      }
+
+      final List<dynamic> parsedData = jsonDecode(response.body);
+      return parsedData.map((eventNetwork) => EventNetwork.fromJson(eventNetwork)).toList();
+    }catch(e){
+      log(e.toString());
+    }
+    
+    return null;
   }
 }
