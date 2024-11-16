@@ -23,21 +23,21 @@ class HomeBodyAppbar extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Welcome Back 👏',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
-                      'Andrew Airslay',
-                      style: TextStyle(
+                      context.read<AuthBloc>().state.userModel?.username ?? '',
+                      style: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                       ),

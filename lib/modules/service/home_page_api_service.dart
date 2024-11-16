@@ -52,7 +52,6 @@ class HomePageApiService {
     if(popularGames == null){
       return null;
     }
-    log(popularGames.length.toString());
 
     final ApiClientIdBearerToken instance = await ApiClientIdBearerToken.getInstance();
     final Uri uri = Uri.parse('https://api.igdb.com/v4/games');
@@ -107,7 +106,7 @@ class HomePageApiService {
     return parsedData.map((game) => Cover.fromJson(game)).toList();
   }
 
-  Future<List<Event>?> getEvents()async{
+  Future<List<Event>?> getEvents({required int limit,required int offset})async{
     /*
       sort the events with respect to start_time
       we can get event_logo by getting the event_logo parameter in event and post req with id = event_logo
@@ -124,7 +123,7 @@ class HomePageApiService {
           'Authorization': 'Bearer ${instance.bearerToken}',
           'Content-Type': 'application/json',
         },
-        body: 'fields *;  where start_time > ${DateTime.now().millisecondsSinceEpoch}',     // upcoming events
+        body: 'fields *;  where start_time > ${DateTime.now().millisecondsSinceEpoch}; limit $limit;  offset $offset;',     // upcoming events
       );
 
       if(response.statusCode != 200){
@@ -146,7 +145,7 @@ class HomePageApiService {
     final Uri uri = Uri.parse('https://api.igdb.com/v4/event_logos');
 
     final List<int> eventLogos = events.map((event) => event.eventLogo).toList();
-    final String eventIDs = '(${eventLogos.join(',')})';
+    final String eventIDs = '(${eventLogos.where((logo) => logo != 0).join(',')})';               // when there is no event_logo attribute we get value 0 so dont add it or else null
 
     try{
       final Response response = await _client.post(
@@ -156,7 +155,7 @@ class HomePageApiService {
           'Authorization': 'Bearer ${instance.bearerToken}',
           'Content-Type': 'application/json',
         },
-        body: 'fields *;  where id = $eventIDs',     // upcoming events
+        body: 'fields *;  where id = $eventIDs;',     // upcoming events
       );
 
       if(response.statusCode != 200){

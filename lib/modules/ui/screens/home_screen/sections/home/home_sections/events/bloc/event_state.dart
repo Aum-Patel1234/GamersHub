@@ -3,8 +3,8 @@ part of 'event_bloc.dart';
 class EventState {
   final bool isLoading;
   List<Event> events;
-  List<EventLogo> eventLogos;
-  List<EventNetwork> eventNetworks;
+  List<EventLogo?> eventLogos;
+  List<EventNetwork?> eventNetworks;
 
   EventState({
     required this.isLoading,

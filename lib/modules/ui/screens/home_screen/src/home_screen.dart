@@ -8,6 +8,7 @@ import 'package:gamers_hub/modules/ui/screens/home_screen/sections/my_games/my_g
 import 'package:gamers_hub/modules/ui/screens/home_screen/sections/settings/settings_body.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/widgets/home_screen_widgets.dart';
 import '../appbar/home_screen_appbar.dart';
+import '../sections/home/home_sections/events/bloc/event_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,17 +20,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController();
   final ScrollController _topChartsScrollController = ScrollController();
+  final ScrollController _eventsScrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     context.read<TopChartsBloc>().add(TopChartsEventGetGames(limit: 15));
-    _topChartsScrollController.addListener((){
-      if(!context.read<TopChartsBloc>().state.isLoading && _topChartsScrollController.position.pixels >= _topChartsScrollController.position.maxScrollExtent*0.9){    // Trigger pagination when the user scrolls near the end
-        // !context.read<TopChartsBloc>().state.isLoading   -> this helps to prevent multiple requests to the sever at once
-        context.read<TopChartsBloc>().add(TopChartsEventFetchMoreGames());
-      } 
-    });
+    context.read<EventBloc>().add(EventEventFetchEvents(limit: 10));
+    handleControllers();
   }
 
   @override
@@ -52,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const Center(child: Text('For You Content')),
                       TopCharts(scrollController: _topChartsScrollController),
-                      const Center(child: Text('Events Content')),
+                      Events(),
                       const Center(child: Text('Kids content')),
                       const Center(child: Text('Categories Content')),
                     ],
@@ -68,6 +66,16 @@ class _HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar: CustomNavigationBar(pageController: _pageController),
       ),
     );
+  }
+
+  void handleControllers(){
+    _topChartsScrollController.addListener((){
+      if(!context.read<TopChartsBloc>().state.isLoading && _topChartsScrollController.position.pixels >= _topChartsScrollController.position.maxScrollExtent*0.9){    // Trigger pagination when the user scrolls near the end
+        // !context.read<TopChartsBloc>().state.isLoading   -> this helps to prevent multiple requests to the sever at once
+        context.read<TopChartsBloc>().add(TopChartsEventFetchMoreGames());
+      } 
+    });
+    
   }
 
   @override
