@@ -155,7 +155,7 @@ class HomePageApiService {
           'Authorization': 'Bearer ${instance.bearerToken}',
           'Content-Type': 'application/json',
         },
-        body: 'fields *;  where id = $eventIDs;',     // upcoming events
+        body: 'fields event,url;  where id = $eventIDs;',     // upcoming events
       );
 
       if(response.statusCode != 200){

@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const Center(child: Text('For You Content')),
                       TopCharts(scrollController: _topChartsScrollController),
-                      Events(),
+                      Events(scrollController: _eventsScrollController,),
                       const Center(child: Text('Kids content')),
                       const Center(child: Text('Categories Content')),
                     ],
@@ -83,5 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
     _pageController.dispose();
     _topChartsScrollController.dispose();
+    _eventsScrollController.dispose();
   }
 }

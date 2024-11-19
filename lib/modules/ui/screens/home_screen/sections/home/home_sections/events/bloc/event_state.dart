@@ -2,9 +2,9 @@ part of 'event_bloc.dart';
 
 class EventState {
   final bool isLoading;
-  List<Event> events;
-  List<EventLogo?> eventLogos;
-  List<EventNetwork?> eventNetworks;
+  final List<Event> events;
+  final Map<int, EventLogo> eventLogos;
+  final Map<int, EventNetwork> eventNetworks;
 
   EventState({
     required this.isLoading,
@@ -17,8 +17,8 @@ class EventState {
   EventState copyWith({
     bool? isLoading,
     List<Event>? events,
-    List<EventLogo>? eventLogos,
-    List<EventNetwork>? eventNetworks,
+    Map<int, EventLogo>? eventLogos,
+    Map<int, EventNetwork>? eventNetworks,
   }) {
     return EventState(
       isLoading: isLoading ?? this.isLoading,

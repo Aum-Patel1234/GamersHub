@@ -1,9 +1,9 @@
 part of '../home_section_collection.dart';
 
 class Events extends StatelessWidget {
-  Events({super.key});
+  const Events({super.key, required this.scrollController});
 
-  final HomePageApiService _apiService = HomePageApiService();
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +12,16 @@ class Events extends StatelessWidget {
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
+
         return ListView.builder(
           itemCount: state.events.length,
           itemBuilder: (context, index) {
+            final event = state.events[index];
+            
             return GestureDetector(
               onTap: () {
                 // Tile click functionality (currently none)
+                showEventDetailsBottomSheet(context, event, state.eventLogos[event.id]?.url);
               },
               child: Container(
                 padding: const EdgeInsets.all(Config.paddingSixteen),
@@ -45,17 +49,19 @@ class Events extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                state.events[index].name,
+                                event.name,
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 4.0),
                               Text(
-                                state.events[index].description.isNotEmpty
-                                    ? state.events[index].description
-                                    : '${state.events[index].name} is an exciting event. Stay tuned for more details!',
+                                event.description.isNotEmpty
+                                    ? event.description
+                                    : '${event.name} is an exciting event. Stay tuned for more details!',
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.white38,
@@ -70,12 +76,12 @@ class Events extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12.0),
                           child: FutureBuilder<ImageProvider>(
-                            future: state.eventLogos[index] == null ? null : Future.value(NetworkImage('https:${state.eventLogos[index]!.url}')), 
+                            future: state.eventLogos[event.id] == null ? null : Future.value(NetworkImage('https:${state.eventLogos[event.id]!.url}')), 
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting) {
                                 return const CircularProgressIndicator();
                               } else if (snapshot.hasError || !snapshot.hasData) {
-                                return const Icon(Icons.error_outline);
+                                return Image.asset("assets/images/80x80_error.png");
                               } else {
                                 return Image(
                                   width: 80,
@@ -102,24 +108,24 @@ class Events extends StatelessWidget {
                               const SizedBox(width: 4.0),
                               Expanded(
                                 child: Text(
-                                  'Start: ${DateFormat('EEE, MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(state.events[index].startTime * 1000))}\n'
-                                  'End  : ${DateFormat('EEE, MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(state.events[index].endTime * 1000))}',
-                                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                                ),
+                                  'Start: ${DateFormat('MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(event.startTime * 1000))}\n'
+                                  'End  : ${DateFormat('MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(event.endTime * 1000))}',
+                                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                                ), 
                               ),
                             ],
                           ),
                         ),
                         // Right Section: Live Stream Link
-                        if (state.events[index].liveStreamUrl.isNotEmpty)
+                        if (event.liveStreamUrl.isNotEmpty)
                           Expanded(
                             flex: 2,
                             child: TextButton(
                               onPressed: () async {
-                                final Uri uri = Uri.parse(state.events[index].liveStreamUrl);
+                                final Uri uri = Uri.parse(event.liveStreamUrl);
                                 try {
                                   if (!await launchUrl(uri)) {
-                                    throw Exception('Could not launch ${state.events[index].liveStreamUrl}');
+                                    throw Exception('Could not launch ${event.liveStreamUrl}');
                                   }
                                 } catch (e) {
                                   log(e.toString());
