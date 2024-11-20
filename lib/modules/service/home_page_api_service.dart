@@ -80,11 +80,12 @@ class HomePageApiService {
     return parsedData.map((game) => Games.fromJson(game)).toList();
   }
 
-  Future<List<Cover>?> getCovers({required List<Games> games}) async{                     // i need games to take covers
+  Future<List<Cover>?> getCovers({List<Games>? games,List<int>? gameId,required String parameter}) async{                     // i need games to take covers
     final ApiClientIdBearerToken instance = await ApiClientIdBearerToken.getInstance();
     final Uri uri = Uri.parse('https://api.igdb.com/v4/covers');
 
-    final List<int> gameIds = games.map((game) => game.id).toList();
+    if(games == null && gameId == null)  return null; 
+    final List<int> gameIds = games == null ? gameId! : games.map((game) => game.id).toList();
     final gameIdsString = '(${gameIds.join(',')})';
 
     final Response response = await _client.post(
@@ -94,7 +95,7 @@ class HomePageApiService {
         'Authorization': 'Bearer ${instance.bearerToken}',
         'Content-Type': 'application/json',
       },
-      body: 'fields *;  where id = $gameIdsString;',
+      body: 'fields game,url;  where $parameter = $gameIdsString;',  // id for games covers and game for events bottomsheet
     );
 
     if(response.statusCode != 200){ 

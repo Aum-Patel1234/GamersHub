@@ -19,7 +19,7 @@ class SettingsBody extends StatelessWidget {
         ListTile(
           leading: ClipOval(
             child: Image.network(
-              "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
+              context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
               fit: BoxFit.cover,
               width: 60,
               height: 60,

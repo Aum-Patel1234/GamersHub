@@ -1,18 +1,19 @@
 library show_event_details_bottomsheet.dart;
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gamers_hub/modules/models/covers/cover.dart';
 import 'package:gamers_hub/modules/models/events/event.dart';
-import 'package:gamers_hub/modules/models/events/event_logo.dart';
-import 'package:gamers_hub/modules/service/api_client_id_bearer_token.dart';
-import 'package:http/http.dart';
+import 'package:gamers_hub/modules/service/home_page_api_service.dart';
+import 'package:gamers_hub/modules/theme/bloc/theme_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'event_games_row.dart';
 
 void showEventDetailsBottomSheet(BuildContext context, Event event, String? imageLink) {
+  final Color color =  context.read<ThemeBloc>().state.themeData == ThemeData.dark() ? Colors.white54 : Colors.black54; 
+
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -33,7 +34,7 @@ void showEventDetailsBottomSheet(BuildContext context, Event event, String? imag
                   width: 40,
                   margin: const EdgeInsets.only(bottom: 16),
                   decoration: BoxDecoration(
-                    color: Colors.grey[300],
+                    // color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -62,37 +63,34 @@ void showEventDetailsBottomSheet(BuildContext context, Event event, String? imag
                 ],
               ),
               const SizedBox(height: 16),
-              const Text(
-                "Description:",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
               Text(
-                event.description,
-                style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                event.description == '' ? '${event.name} is coming up with an exiting event. Stay Tuned for more updates...' : event.description,
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: color),
               ),
               const SizedBox(height: 16),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _infoTile(context,
-                      title: "Start Time",
-                      value:
-                          'Start: ${DateFormat('EEE, MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(event.startTime * 1000))}\n'),
-                  _infoTile(
-                    context,
-                    title: "End Time",
-                    value:
-                        'End  : ${DateFormat('EEE, MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(event.endTime * 1000))}',
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                "Games:",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+
+              _infoTile(context,
+                  title: "Start Time",
+                  value:'Start: ${DateFormat('EEE, MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(event.startTime * 1000))}\n',
+                  color: color),
+              _infoTile(
+                context,
+                title: "End Time",
+                value:'End  : ${DateFormat('EEE, MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(event.endTime * 1000))}',
+                color:color,
               ),
 
-              EventGamesRow(gamesId:event.games),        // games logos in a row
+              const SizedBox(height: 16),
+              const Text(
+                "Featured Games",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+
+              const SizedBox(height: 16),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: EventGamesRow(gamesId:event.games)
+              ),        // games logos in a row
 
               const SizedBox(height: 16),
               ElevatedButton.icon(
@@ -101,8 +99,7 @@ void showEventDetailsBottomSheet(BuildContext context, Event event, String? imag
                     final Uri uri = Uri.parse(event.liveStreamUrl);
                     try {
                       if (!await launchUrl(uri)) {
-                        throw Exception(
-                            'Could not launch ${event.liveStreamUrl}');
+                        throw Exception('Could not launch ${event.liveStreamUrl}');
                       }
                     } catch (e) {
                       // log(e.toString());
@@ -121,18 +118,18 @@ void showEventDetailsBottomSheet(BuildContext context, Event event, String? imag
 }
 
 Widget _infoTile(BuildContext context,
-    {required String title, required String value}) {
+    {required String title, required String value, required Color color}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
         title,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
       ),
       const SizedBox(height: 4),
       Text(
         value,
-        style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+        style: TextStyle(fontSize: 12, color: color),
       ),
     ],
   );

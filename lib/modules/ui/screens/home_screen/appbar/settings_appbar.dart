@@ -19,7 +19,6 @@ class SettingsAppbar extends StatelessWidget {
             'Settings',
             style: TextStyle(
               fontSize: 18,
-              color: Colors.white,
             ),
           ),
           const Spacer(),
@@ -29,7 +28,6 @@ class SettingsAppbar extends StatelessWidget {
             },
             icon: const Icon(
               Icons.info,
-              color: Colors.white,
             ),
           ),
         ],

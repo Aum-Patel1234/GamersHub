@@ -18,6 +18,7 @@ class CustomSigninSignupTextfield extends StatefulWidget {
 class _CustomSigninSignupTextfieldState extends State<CustomSigninSignupTextfield> {
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.all(Config.paddingEight),
       child: Column(
@@ -29,7 +30,6 @@ class _CustomSigninSignupTextfieldState extends State<CustomSigninSignupTextfiel
                   obscureText: widget.obscureText,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: const Color(ColorConfig.textAreaColor),
                     prefixIcon: const Padding(
                       padding: EdgeInsets.fromLTRB(Config.paddingSixteen,0,0,0),
                       child: Icon(Icons.lock),
@@ -60,7 +60,6 @@ class _CustomSigninSignupTextfieldState extends State<CustomSigninSignupTextfiel
                   obscureText: widget.obscureText,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: const Color(ColorConfig.textAreaColor),
                     prefixIcon: const Padding(
                       padding: EdgeInsets.fromLTRB(Config.paddingSixteen,0,0,0),
                       child: Icon(Icons.email),

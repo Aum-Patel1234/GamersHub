@@ -25,8 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<TopChartsBloc>().add(TopChartsEventGetGames(limit: 15));
-    context.read<EventBloc>().add(EventEventFetchEvents(limit: 10));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<TopChartsBloc>().add(TopChartsEventGetGames(limit: 15));
+        context.read<EventBloc>().add(EventEventFetchEvents(limit: 10));
+      }
+    });
     handleControllers();
   }
 

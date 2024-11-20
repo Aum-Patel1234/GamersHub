@@ -72,7 +72,7 @@ class AuthService{
 
       return Right(await _firebaseAuth.signInWithCredential(credential));
     }catch(e){
-      return const Left("Some Error Occured while google Sign in !!");
+      return Left(e.toString());
     }
   }
 

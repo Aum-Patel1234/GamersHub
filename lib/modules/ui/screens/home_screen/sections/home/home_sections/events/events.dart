@@ -17,6 +17,7 @@ class Events extends StatelessWidget {
           itemCount: state.events.length,
           itemBuilder: (context, index) {
             final event = state.events[index];
+            final Color textColor = context.read<ThemeBloc>().state.themeData == ThemeData.dark() ? Colors.white54 : Colors.black45;
             
             return GestureDetector(
               onTap: () {
@@ -25,14 +26,13 @@ class Events extends StatelessWidget {
               },
               child: Container(
                 padding: const EdgeInsets.all(Config.paddingSixteen),
-                margin: const EdgeInsets.all(Config.paddingEight),
+                margin: const EdgeInsets.symmetric(horizontal: Config.paddingSixteen,vertical: Config.paddingEight),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.0),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.2),
                       spreadRadius: 1,
-                      blurRadius: 5,
                       offset: const Offset(0, 3), // shadow direction
                     ),
                   ],
@@ -62,9 +62,9 @@ class Events extends StatelessWidget {
                                 event.description.isNotEmpty
                                     ? event.description
                                     : '${event.name} is an exciting event. Stay tuned for more details!',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white38,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: textColor,
                                 ),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
@@ -110,7 +110,10 @@ class Events extends StatelessWidget {
                                 child: Text(
                                   'Start: ${DateFormat('MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(event.startTime * 1000))}\n'
                                   'End  : ${DateFormat('MMM d, yyyy • h:mm a').format(DateTime.fromMillisecondsSinceEpoch(event.endTime * 1000))}',
-                                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                                  style: TextStyle(
+                                    fontSize: 11, 
+                                    color: textColor,
+                                  ),
                                 ), 
                               ),
                             ],
@@ -134,13 +137,11 @@ class Events extends StatelessWidget {
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Icon(Icons.video_camera_front,
-                                      size: 16, color: Colors.blue),
+                                  Icon(Icons.video_camera_front,size: 16, color: Colors.blue),
                                   SizedBox(width: 4.0),
                                   Text(
-                                    'Live Stream',
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.blue),
+                                    'Live',
+                                    style: TextStyle(fontSize: 12, color: Colors.blue),
                                   ),
                                 ],
                               ),

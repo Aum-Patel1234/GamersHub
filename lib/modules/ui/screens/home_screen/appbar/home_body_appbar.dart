@@ -15,7 +15,7 @@ class HomeBodyAppbar extends StatelessWidget {
                 onPressed: () {},
                 icon: ClipOval(
                   child: Image.network(
-                    "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
+                    context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
                     fit: BoxFit.cover,
                     width: 50,
                     height: 50,
@@ -31,7 +31,6 @@ class HomeBodyAppbar extends StatelessWidget {
                       'Welcome Back 👏',
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -39,7 +38,6 @@ class HomeBodyAppbar extends StatelessWidget {
                       context.read<AuthBloc>().state.userModel?.username ?? '',
                       style: const TextStyle(
                         fontSize: 16,
-                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -51,7 +49,6 @@ class HomeBodyAppbar extends StatelessWidget {
                 },
                 icon: const Icon(
                   CupertinoIcons.search,
-                  color: Colors.white,
                 ),
               ),
               IconButton(
@@ -60,7 +57,6 @@ class HomeBodyAppbar extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.notifications,
-                  color: Colors.white,
                 ),
               ),
             ],

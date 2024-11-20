@@ -17,7 +17,7 @@ class TopCharts extends StatelessWidget {
           controller: scrollController,
           itemBuilder: (context, index) {
             final Games game = state.popularGames[index];
-            final coverUrl = index < state.covers.length ? 'https:${state.covers[index].url}' : ''; 
+            final coverUrl = index < state.covers.length ? 'https:${state.covers[game.id]?.url}' : ''; 
         
             return ListTile(
               leading: coverUrl.isNotEmpty ? CircleAvatar(child: Image(image: NetworkImage(coverUrl),fit: BoxFit.contain,),) : const Icon(Icons.image_not_supported), 

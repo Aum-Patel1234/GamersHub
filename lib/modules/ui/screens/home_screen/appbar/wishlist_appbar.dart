@@ -19,7 +19,6 @@ class GameVerseAppbar extends StatelessWidget {
             'Multiverse of Games',
             style: TextStyle(
               fontSize: 18,
-              color: Colors.white,
             ),
           ),
           const Spacer(),
@@ -29,7 +28,6 @@ class GameVerseAppbar extends StatelessWidget {
             },
             icon: const Icon(
               CupertinoIcons.search,
-              color: Colors.white,
             ),
           ),
           IconButton(
@@ -38,7 +36,6 @@ class GameVerseAppbar extends StatelessWidget {
             },
             icon: const Icon(
               Icons.info,
-              color: Colors.white,
             ),
           ),
         ],

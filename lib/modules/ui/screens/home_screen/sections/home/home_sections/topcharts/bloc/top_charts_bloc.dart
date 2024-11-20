@@ -11,9 +11,10 @@ part 'top_charts_event.dart';
 part 'top_charts_state.dart';
 
 class TopChartsBloc extends Bloc<TopChartsEvent,TopChartsState>{
-  TopChartsBloc():super(TopChartsState(isLoading: false, popularGames: [], covers: [])){
+  TopChartsBloc():super(TopChartsState(isLoading: false, popularGames: [], covers: {})){
     on<TopChartsEventGetGames>(_onTopChartsEventGetGames);
     on<TopChartsEventFetchMoreGames>(_onTopChartsEventFetchMoreGames);
+    on<TopChartsEventGetCovers>(_onTopChartsEventGetCovers);
   } 
   
   final HomePageApiService _service = HomePageApiService();
@@ -29,12 +30,13 @@ class TopChartsBloc extends Bloc<TopChartsEvent,TopChartsState>{
     }
     state.popularGames.addAll(games);
 
-    final List<Cover>? covers = await _service.getCovers(games: games);
-    if(covers == null){
-      emit(state.copyWith(isLoading: false));
-      return;
-    }
-    state.covers.addAll(covers);
+    // final List<Cover>? covers = await _service.getCovers(games: games);
+    // if(covers == null){
+    //   emit(state.copyWith(isLoading: false));
+    //   return;
+    // }
+    // state.covers.addAll(covers);
+    add(TopChartsEventGetCovers(gameIds: games.map((game) => game.cover).nonNulls.toList())); // nonNulls help to remove all nuls and the map will b null freee
 
     emit(state.copyWith(isLoading: false));
   }
@@ -47,14 +49,21 @@ class TopChartsBloc extends Bloc<TopChartsEvent,TopChartsState>{
 
       if(games != null){
         state.popularGames.addAll(games);
-        final List<Cover>? covers = await _service.getCovers(games: games);
 
-        if(covers != null){
-          state.covers.addAll(covers);
-        }
+        add(TopChartsEventGetCovers(gameIds: games.map((game) => game.cover).nonNulls.toList()));
       }
     }
 
     emit(state.copyWith(isLoading: false));
+  }
+
+  FutureOr<void> _onTopChartsEventGetCovers(TopChartsEventGetCovers event, Emitter<TopChartsState> emit) async{
+    final List<Cover>? covers = await _service.getCovers(gameId: event.gameIds,parameter: "id");
+    
+    if(covers == null)    return;
+    
+    for (Cover cover in covers) {
+      state.covers[cover.game] = cover;
+    }
   }
 }

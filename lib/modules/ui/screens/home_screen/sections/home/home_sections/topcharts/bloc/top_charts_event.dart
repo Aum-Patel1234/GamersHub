@@ -7,6 +7,11 @@ class TopChartsEventGetGames extends TopChartsEvent{
   
   final int limit;
 }
+class TopChartsEventGetCovers extends TopChartsEvent{
+  TopChartsEventGetCovers({required this.gameIds});
+  
+  final List<int> gameIds;
+}
 
 class TopChartsEventFetchMoreGames extends TopChartsEvent{
   TopChartsEventFetchMoreGames();
