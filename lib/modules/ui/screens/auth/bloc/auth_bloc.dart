@@ -70,6 +70,8 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
             id: r.user?.uid ?? '',
             email: r.user!.email ?? event.email,             // added a new event to create user
             username: r.user?.displayName ?? event.email.split("@")[0],
+            profilePicture: r.user?.photoURL,
+            phoneNumber: r.user?.phoneNumber,
           ),
         ),
       );
@@ -85,12 +87,13 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
   FutureOr<void> _onAuthEventLogout(AuthEventLogout event, Emitter<AuthState> emit) async{
     emit(state.copyWith(isLoading: true));
     await _authService.logout();
-    showCustomSnackBar(message: "LogOut Successfull");
+    showCustomSnackBar(message: "Logout Successfull");
     emit(state.copyWith(isLoading: false,isAuthenticated: false));
   }
 
   FutureOr<void> _onAuthEventCreateUser(AuthEventCreateUser event, Emitter<AuthState> emit) async{
     await _authService.createUser(userModel: event.userModel);
+    // the user model is not constructed in firebase i.e  not users collection is made and usermodel.map() is not made in firebase 
   } 
 
   FutureOr<void> _onAuthEventGoogleSignIn(AuthEventGoogleSignIn event, Emitter<AuthState> emit) async{

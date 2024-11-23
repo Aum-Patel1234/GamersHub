@@ -20,6 +20,9 @@ class TopCharts extends StatelessWidget {
             final coverUrl = index < state.covers.length ? 'https:${state.covers[game.id]?.url}' : ''; 
         
             return ListTile(
+              onTap: (){
+                Navigator.pushNamed(context, 'game');
+              },
               leading: coverUrl.isNotEmpty ? CircleAvatar(child: Image(image: NetworkImage(coverUrl),fit: BoxFit.contain,),) : const Icon(Icons.image_not_supported), 
               title: Text(game.name ?? "",overflow: TextOverflow.ellipsis,),
               subtitle: Text(game.rating.toString()),
