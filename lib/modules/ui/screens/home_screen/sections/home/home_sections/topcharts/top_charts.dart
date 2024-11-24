@@ -21,11 +21,11 @@ class TopCharts extends StatelessWidget {
         
             return ListTile(
               onTap: (){
-                Navigator.pushNamed(context, 'game');
+                Navigator.pushNamed(context, '/game',arguments: {'game':game,'cover':coverUrl},);
               },
               leading: coverUrl.isNotEmpty ? CircleAvatar(child: Image(image: NetworkImage(coverUrl),fit: BoxFit.contain,),) : const Icon(Icons.image_not_supported), 
               title: Text(game.name ?? "",overflow: TextOverflow.ellipsis,),
-              subtitle: Text(game.rating.toString()),
+              subtitle: Text(game.totalRating.toString()),
               trailing: Text((index+1).toString()),
             );
           },

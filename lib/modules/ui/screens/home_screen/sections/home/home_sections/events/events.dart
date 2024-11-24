@@ -77,11 +77,12 @@ class Events extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           child: FutureBuilder<ImageProvider>(
                             future: state.eventLogos[event.id] == null ? null : Future.value(NetworkImage('https:${state.eventLogos[event.id]!.url}')), 
+                            // here https://images.igdb.com/igdb/image/upload/t_1080p/elbx.jpg gives good image
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting) {
                                 return const CircularProgressIndicator();
                               } else if (snapshot.hasError || !snapshot.hasData) {
-                                return Image.asset("assets/images/80x80_error.png");
+                                return Image.asset("assets/images/80x80_error.png");    
                               } else {
                                 return Image(
                                   width: 80,
