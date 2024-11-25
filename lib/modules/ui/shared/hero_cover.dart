@@ -1,15 +1,14 @@
-part of 'game_screen_widgets.dart';
+import 'package:flutter/material.dart';
 
-class HeroGameCover extends StatelessWidget {
-  const HeroGameCover(
+class HeroCover extends StatelessWidget {
+  const HeroCover(
       {super.key,
       required this.heroTag,
-      required this.coverUrl,
-      required this.width});
+      required this.coverUrl,});
 
   final String heroTag;
   final String coverUrl;
-  final double width;
+  // final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +25,8 @@ class HeroGameCover extends StatelessWidget {
                   child: Center(
                     child: Image.network(
                       coverUrl,
-                      width: width, // Same width as the source image
-                      height: width, // Keeping height and width consistent
+                      width: double.infinity, // Same width as the source image
+                      // height: width, // Keeping height and width consistent
                       fit: BoxFit.cover, // Use BoxFit.cover for both screens
                     ),
                   ),
@@ -39,11 +38,11 @@ class HeroGameCover extends StatelessWidget {
         child: Hero(
           tag: heroTag,
           child: SizedBox(
-            width: width, // Fixed width to ensure consistent sizing
-            height: width, // Fixed height to match the aspect ratio
+            // width: width, // Fixed width to ensure consistent sizing
+            // height: width, // Fixed height to match the aspect ratio
             child: Image.network(
               coverUrl,
-              fit: BoxFit.contain, // Use BoxFit.cover for both screens
+              fit: BoxFit.cover, // Use BoxFit.cover for both screens
             ),
           ),
         ),

@@ -1,19 +1,19 @@
 class EventLogo {
   // final int id;
   final int event;
-  final String url;
+  final String imageId;
 
   EventLogo({
     // required this.id,
     required this.event,
-    required this.url,
+    required this.imageId,
   });
 
   factory EventLogo.fromJson(Map<String, dynamic> json) {
     return EventLogo(
       // id: json['id'] ?? 0,
       event: json['event'] ?? 0,
-      url: json['url'] ?? '',
+      imageId: json['image_id'] ?? '',
     );
   }
 
@@ -21,7 +21,7 @@ class EventLogo {
     return {
       // 'id': id,
       'event': event,
-      'url': url,
+      'image_id': imageId,
     };
   }
 }

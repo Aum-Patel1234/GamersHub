@@ -18,11 +18,13 @@ class Events extends StatelessWidget {
           itemBuilder: (context, index) {
             final event = state.events[index];
             final Color textColor = context.read<ThemeBloc>().state.themeData == ThemeData.dark() ? Colors.white54 : Colors.black45;
+            final String imgUrl = 'https://images.igdb.com/igdb/image/upload/t_1080p/${state.eventLogos[event.id]?.imageId}.jpg';
+            // log(state.eventLogos.values.map((val)=>val.imageId).toList().toString());
             
             return GestureDetector(
               onTap: () {
                 // Tile click functionality (currently none)
-                showEventDetailsBottomSheet(context, event, state.eventLogos[event.id]?.url);
+                showEventDetailsBottomSheet(context, event, imgUrl);
               },
               child: Container(
                 padding: const EdgeInsets.all(Config.paddingSixteen),
@@ -76,7 +78,9 @@ class Events extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12.0),
                           child: FutureBuilder<ImageProvider>(
-                            future: state.eventLogos[event.id] == null ? null : Future.value(NetworkImage('https:${state.eventLogos[event.id]!.url}')), 
+                            future: state.eventLogos[event.id] == null 
+                                    ? null
+                                    : Future.value(NetworkImage(imgUrl)), 
                             // here https://images.igdb.com/igdb/image/upload/t_1080p/elbx.jpg gives good image
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting) {

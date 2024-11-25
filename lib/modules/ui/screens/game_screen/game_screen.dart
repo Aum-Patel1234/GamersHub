@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamers_hub/modules/models/games/games.dart';
+import 'package:gamers_hub/modules/ui/shared/hero_cover.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key, required this.game, required this.coverUrl});
@@ -21,9 +22,10 @@ class GameScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 200,
+              // height: 200,
               // child: Youtube Video,
               color: Colors.red,
+              child: HeroCover(heroTag: 'game_${game.id}', coverUrl: coverUrl,)
             ),
 
           ],

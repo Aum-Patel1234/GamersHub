@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        context.read<TopChartsBloc>().add(TopChartsEventGetGames(limit: 15));
+        context.read<TopChartsBloc>().add(TopChartsEventGetGames(limit: 15,));
         context.read<EventBloc>().add(EventEventFetchEvents(limit: 10));
       }
     });
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _topChartsScrollController.addListener((){
       if(!context.read<TopChartsBloc>().state.isLoading && _topChartsScrollController.position.pixels >= _topChartsScrollController.position.maxScrollExtent*0.9){    // Trigger pagination when the user scrolls near the end
         // !context.read<TopChartsBloc>().state.isLoading   -> this helps to prevent multiple requests to the sever at once
-        context.read<TopChartsBloc>().add(TopChartsEventFetchMoreGames());
+        context.read<TopChartsBloc>().add(TopChartsEventGetGames(limit: 10));
       } 
     });
     

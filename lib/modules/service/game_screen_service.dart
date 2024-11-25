@@ -4,11 +4,14 @@ import 'dart:developer';
 import 'package:gamers_hub/modules/models/artworks/artwork.dart';
 import 'package:gamers_hub/modules/models/games/game_video.dart';
 import 'package:gamers_hub/modules/models/screenshots/screenshot.dart';
+import 'package:gamers_hub/modules/ui/shared/show_snack_bar.dart';
 import 'package:http/http.dart';
 import 'package:gamers_hub/modules/service/api_client_id_bearer_token.dart';
 
 class GameScreenService {
   final Client _client = Client();
+  final String _imgFileExtension = 'jpg';
+  final String _imgResolution = 't_1080p';
 
   void getGames(){
     // get games
@@ -30,8 +33,13 @@ class GameScreenService {
         body: 'fields id,game,video_id; where id = $videoIdsString;',      // fields id,game,video_id
       );
 
+      if(response.statusCode != 200){ 
+        handleApiResponse(jsonDecode(response.body));          // to show the custom snackbar
+        return null;
+      }
+
       final List<GameVideo> gameVideos = (jsonDecode(response.body) as List<dynamic>).map((video) => GameVideo.fromJson(video)).toList();
-      final List<String> vidoeLinks = [];
+      List<String> vidoeLinks = [];
 
       // https://www.youtube.com/watch?v=$videoId
       for(GameVideo gameVideo in gameVideos){
@@ -61,12 +69,17 @@ class GameScreenService {
         body: 'fields id,game,image_id; where id = $getGameScreenShotsString;',      // fields id,game,video_id
       );
 
+      if(response.statusCode != 200){ 
+        handleApiResponse(jsonDecode(response.body));          // to show the custom snackbar
+        return null;
+      }
+
       final List<ScreenShot> gameScreenShots = (jsonDecode(response.body) as List<dynamic>).map((screenShot) => ScreenShot.fromJson(screenShot)).toList();
-      final List<String> screenshots = [];
+      List<String> screenshots = [];
 
     // https://images.igdb.com/igdb/image/upload/t_1080p/co670h.jpg
       for(ScreenShot gameScreenShot in gameScreenShots){
-        screenshots.add('https://images.igdb.com/igdb/image/upload/t_1080p/${gameScreenShot.imageId}.jpg');
+        screenshots.add('https://images.igdb.com/igdb/image/upload/$_imgResolution/${gameScreenShot.imageId}.$_imgFileExtension');
       }
 
       return screenshots;
@@ -92,12 +105,17 @@ class GameScreenService {
         body: 'fields id,game,image_id; where id = $getGameArtworksString;',      // fields id,game,video_id
       );
 
+      if(response.statusCode != 200){ 
+        handleApiResponse(jsonDecode(response.body));          // to show the custom snackbar
+        return null;
+      }
+
       final List<Artwork> getGameArtworks = (jsonDecode(response.body) as List<dynamic>).map((artwork) => Artwork.fromJson(artwork)).toList();
-      final List<String> gameArtworks = [];
+      List<String> gameArtworks = [];
 
     // https://images.igdb.com/igdb/image/upload/t_1080p/co670h.jpg
       for(Artwork artwork in getGameArtworks){
-        gameArtworks.add('https://images.igdb.com/igdb/image/upload/t_1080p/${artwork.imageId}.jpg');
+        gameArtworks.add('https://images.igdb.com/igdb/image/upload/$_imgResolution/${artwork.imageId}.$_imgFileExtension');
       }
 
       return gameArtworks;

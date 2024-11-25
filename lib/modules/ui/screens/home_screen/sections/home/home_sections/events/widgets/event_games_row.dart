@@ -4,7 +4,7 @@ class EventGamesRow extends StatelessWidget {
   EventGamesRow({super.key, required this.gamesId});
 
   final List<int> gamesId;
-  final HomePageApiService _service = HomePageApiService();
+  final CommonService _service = CommonService();
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class EventGamesRow extends StatelessWidget {
     final limitedGames = gamesId.take(5).toList();
 
     return FutureBuilder<List<Cover>>(
-      future: _service.getCovers(gameId: limitedGames,parameter: "game").then((covers) => covers ?? []),
+      future: _service.getCovers(coverIds: limitedGames,parameter: "game").then((covers) => covers ?? []),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -23,7 +23,7 @@ class EventGamesRow extends StatelessWidget {
             child: Text('Failed to load game images'),
           );
         } else if (snapshot.hasData) {
-          final covers = snapshot.data!;
+          final List<Cover> covers = snapshot.data!;
           return Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -33,7 +33,7 @@ class EventGamesRow extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 4.0), 
                   child: CircleAvatar(
                     radius: 25,
-                    backgroundImage: NetworkImage('https:${cover.url}'),
+                    backgroundImage: NetworkImage('https://images.igdb.com/igdb/image/upload/t_1080p/${cover.imageId}.jpg'),
                   ),
                 );
               }),

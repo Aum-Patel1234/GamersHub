@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamers_hub/modules/models/covers/cover.dart';
 import 'package:gamers_hub/modules/models/events/event.dart';
-import 'package:gamers_hub/modules/service/home_page_api_service.dart';
+import 'package:gamers_hub/modules/service/common_service.dart';
 import 'package:gamers_hub/modules/theme/bloc/theme_bloc.dart';
+import 'package:gamers_hub/modules/ui/shared/hero_cover.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -41,12 +42,14 @@ void showEventDetailsBottomSheet(BuildContext context, Event event, String? imag
               ),
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundImage: (imageLink == null)
-                        ? const AssetImage('assets/images/80x80_error.png')
-                        : NetworkImage(
-                            'https:$imageLink'), // Replace with your asset path
+                  ClipOval(
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: (imageLink == null)
+                          ? const AssetImage('assets/images/80x80_error.png')
+                          : NetworkImage(imageLink), // Replace with your asset path
+                      child: HeroCover(heroTag: 'event_${event.id}', coverUrl: imageLink!),
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
