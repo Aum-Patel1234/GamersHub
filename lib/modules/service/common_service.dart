@@ -68,12 +68,12 @@ class CommonService {
 
 
   Future<List<Genre>?> getGenres()async{
-  // use hive package 
+    // use hive package 
 
     return null;
   }
   Future<List<String>?> getCategories({required List<int> categoryEnum})async{
-  // use hive package 
+    // use hive package 
 
     return null;
   }

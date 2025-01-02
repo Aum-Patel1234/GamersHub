@@ -36,7 +36,7 @@ class _CustomSigninSignupTextfieldState extends State<CustomSigninSignupTextfiel
                     ),
                     hintText: widget.hintText,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(Config.borderRadiusDeep),
+                      borderRadius: BorderRadius.circular(Config.borderRadius),
                     ),
                   ),
                 )
@@ -66,7 +66,7 @@ class _CustomSigninSignupTextfieldState extends State<CustomSigninSignupTextfiel
                     ),
                     hintText: widget.hintText,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(Config.borderRadiusDeep),
+                      borderRadius: BorderRadius.circular(Config.borderRadius),
                     ),
                   ),
                 ),

@@ -16,7 +16,10 @@ class CompanySignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final Color color = 
+    // Color lighterColor = Color.alphaBlend(Colors.black.withOpacity(0.2), Theme.of(context).scaffoldBackgroundColor);
+    final Color boxColor = (context.read<ThemeBloc>().state.themeData == ThemeData.dark()) 
+        ? Colors.white24
+        : Colors.black12;
 
     return GestureDetector(
       onTap: (){
@@ -34,7 +37,7 @@ class CompanySignInButton extends StatelessWidget {
         width: 80,
         height: 60,
         decoration: BoxDecoration(
-          color: (context.read<ThemeBloc>().state.themeData == ThemeData.dark) ? Colors.white54 : Colors.black26,
+          color: boxColor,
           borderRadius: BorderRadius.circular(Config.borderRadius),
         ),
         child: Center(

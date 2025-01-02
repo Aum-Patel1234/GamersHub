@@ -23,3 +23,7 @@ GamersHub is a Flutter application designed to provide users with comprehensive 
 - Google icons created by [Freepik - Flaticon](https://www.flaticon.com/free-icons/google)
 - Facebook icons created by [Freepik - Flaticon](https://www.flaticon.com/free-icons/facebook)
 - Many of the images in this app are designed by [Freepik](https://www.freepik.com). A big thank you to them for their amazing designs and images!
+
+## Improvisation
+
+**1. It is rebuilding the aldready builded widgets while pagination so try to improve**

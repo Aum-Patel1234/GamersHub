@@ -16,5 +16,5 @@ import 'package:url_launcher/url_launcher.dart';
 part 'kids.dart';
 part 'events/events.dart';
 part 'for_you.dart';
-part 'categories.dart';
+part 'categories/categories.dart';
 part 'topcharts/top_charts.dart';

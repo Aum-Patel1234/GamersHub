@@ -13,7 +13,7 @@ class TopCharts extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return ListView.builder(
+        return ListView.builder(                        // it is rebuilding the aldready builded widgets while pagination so try to improve
           itemCount: state.popularGames.length,
           controller: scrollController,
           itemBuilder: (context, index) {

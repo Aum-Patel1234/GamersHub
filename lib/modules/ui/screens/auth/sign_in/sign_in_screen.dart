@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gamers_hub/modules/theme/bloc/theme_bloc.dart';
 
 import '../../../../../utils/config/config.dart';
 import '../shared/auth_shared_widgets.dart';
@@ -80,20 +82,20 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: CustomDivider(),
                 ),
       
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CompanySignInButton(
+                    const CompanySignInButton(
                       imageLink: 'assets/icons/google_icon.png',
                       signInCompany: SignInCompany.google,
       
                     ),
-                    CompanySignInButton(
+                    const CompanySignInButton(
                       imageLink: 'assets/icons/facebook.png',
                       signInCompany: SignInCompany.facebook,
                     ),
                     CompanySignInButton(
-                      imageLink: 'assets/icons/logo-white.png',
+                      imageLink: (context.read<ThemeBloc>().state.themeData == ThemeData.dark()) ? 'assets/icons/logo-white.png' : 'assets/icons/logo-black.png',
                       signInCompany: SignInCompany.twitter,
                     ),
                   ],

@@ -9,11 +9,12 @@ class Events extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EventBloc, EventState>(
       builder: (context, state) {
-        if (state.isLoading) {
+        if (state.isLoading && state.events.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
 
         return ListView.builder(
+          controller: scrollController,
           itemCount: state.events.length,
           itemBuilder: (context, index) {
             final event = state.events[index];
@@ -159,6 +160,7 @@ class Events extends StatelessWidget {
               ),
             );
           },
+
         );
       },
     );

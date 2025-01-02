@@ -80,6 +80,11 @@ class _HomeScreenState extends State<HomeScreen> {
       } 
     });
     
+    _eventsScrollController.addListener((){
+      if(!context.read<EventBloc>().state.isLoading && _eventsScrollController.position.pixels >= _eventsScrollController.position.maxScrollExtent*0.9){
+        context.read<EventBloc>().add(EventEventFetchEvents(limit: 10));
+      }
+    });
   }
 
   @override

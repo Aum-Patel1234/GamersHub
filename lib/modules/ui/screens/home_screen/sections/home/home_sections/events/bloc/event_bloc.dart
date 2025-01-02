@@ -23,7 +23,7 @@ class EventBloc extends Bloc<EventEvent,EventState>{
   FutureOr<void> _onEventEventFetchEvents(EventEventFetchEvents event, Emitter<EventState> emit) async{
     emit(state.copyWith(isLoading: true));
 
-    List<Event>? events = await _apiService.getEvents(limit: event.limit,offset: 0);
+    List<Event>? events = await _apiService.getEvents(offset: state.events.length, limit: event.limit);
     if(events != null){
       state.events.addAll(events);
       add(EventEventFetchEventLogo(events: events));
