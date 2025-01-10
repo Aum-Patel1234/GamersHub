@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamers_hub/modules/ui/screens/auth/bloc/auth_bloc.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/bottom_navigation_bar/bloc/bottom_navigation_bloc.dart';
+import 'package:gamers_hub/modules/ui/shared/hero_cover.dart';
 
 part 'home_body_appbar.dart';
 part 'mygames_appbar.dart';

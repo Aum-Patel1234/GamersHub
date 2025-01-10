@@ -1,6 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gamers_hub/utils/config/config.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ApiClientIdBearerToken extends Equatable {
   final String clientId;
@@ -16,9 +17,9 @@ class ApiClientIdBearerToken extends Equatable {
       return _instance!;
     }
     
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var box = await Hive.openBox(Config.myHiveBox);
     final clientId = dotenv.env['TWITCH_CLIENT_ID']!;
-    final bearerToken = prefs.getString("access_token") ?? '';
+    final bearerToken = box.get('access_token', defaultValue: '');
 
     _instance = ApiClientIdBearerToken._(clientId: clientId, bearerToken: bearerToken);
     return _instance!;

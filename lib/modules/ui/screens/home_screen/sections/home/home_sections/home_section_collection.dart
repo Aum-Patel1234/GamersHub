@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamers_hub/modules/models/games/games.dart';
 import 'package:gamers_hub/modules/theme/bloc/theme_bloc.dart';
+import 'package:gamers_hub/modules/ui/screens/home_screen/sections/home/home_sections/categories/bloc/categories_bloc.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/sections/home/home_sections/events/bloc/event_bloc.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/sections/home/home_sections/events/widgets/show_event_details_bottomsheet.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/sections/home/home_sections/topcharts/bloc/top_charts_bloc.dart';

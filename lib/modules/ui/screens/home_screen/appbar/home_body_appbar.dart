@@ -14,12 +14,11 @@ class HomeBodyAppbar extends StatelessWidget {
               IconButton(
                 onPressed: () {},
                 icon: ClipOval(
-                  child: Image.network(
-                    context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
-                    fit: BoxFit.cover,
+                  child: SizedBox(
                     width: 50,
                     height: 50,
-                  ),
+                    child: HeroCover(heroTag: "profileImg", coverUrl: context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg"),
+                  )
                 ),
               ),
               const SizedBox(width: 8),
@@ -71,7 +70,6 @@ class HomeBodyAppbar extends StatelessWidget {
               Tab(text: 'For You'),
               Tab(text: 'Top Charts'),
               Tab(text: 'Events'),
-              Tab(text: 'Kids'),
               Tab(text: 'Categories'),
             ],
           ),

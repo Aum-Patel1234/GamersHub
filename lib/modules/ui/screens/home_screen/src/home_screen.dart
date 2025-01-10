@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/bottom_navigation_bar/bloc/bottom_navigation_bloc.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/sections/gameverse/game_verse.dart';
+import 'package:gamers_hub/modules/ui/screens/home_screen/sections/home/home_sections/categories/bloc/categories_bloc.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/sections/home/home_sections/home_section_collection.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/sections/home/home_sections/topcharts/bloc/top_charts_bloc.dart';
 import 'package:gamers_hub/modules/ui/screens/home_screen/sections/my_games/my_games.dart';
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (mounted) {
         context.read<TopChartsBloc>().add(TopChartsEventGetGames(limit: 15,));
         context.read<EventBloc>().add(EventEventFetchEvents(limit: 10));
+        context.read<CategoriesBloc>().add(CategoriesEventGetGenres());
       }
     });
     handleControllers();
@@ -37,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
         body: Column(
           children: [
@@ -55,8 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Center(child: Text('For You Content')),
                       TopCharts(scrollController: _topChartsScrollController),
                       Events(scrollController: _eventsScrollController,),
-                      const Center(child: Text('Kids content')),
-                      const Center(child: Text('Categories Content')),
+                      // const Center(child: Text('Kids content')),   
+                      const Categories(),
                     ],
                   ),
                   const GameVerse(),
@@ -89,9 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _pageController.dispose();
     _topChartsScrollController.dispose();
     _eventsScrollController.dispose();
+    super.dispose();
   }
 }

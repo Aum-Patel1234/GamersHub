@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamers_hub/modules/theme/bloc/theme_bloc.dart';
 import 'package:gamers_hub/modules/ui/screens/auth/bloc/auth_bloc.dart';
+import 'package:gamers_hub/modules/ui/shared/hero_cover.dart';
 import 'package:gamers_hub/utils/config/color_config.dart';
 
 part 'about_dialog.dart';
@@ -18,12 +19,17 @@ class SettingsBody extends StatelessWidget {
       children: [
         ListTile(
           leading: ClipOval(
-            child: Image.network(
-              context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
-              fit: BoxFit.cover,
-              width: 60,
-              height: 60,
-            ),
+            // child: Image.network(
+            //   context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
+            //   fit: BoxFit.cover,
+            //   width: 60,
+            //   height: 60,
+            // ),
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: HeroCover(heroTag: "profileImg", coverUrl: context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg"),
+            )
           ),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,8 +108,7 @@ class SettingsBody extends StatelessWidget {
         const Divider(),
         ListTile(
           leading: CircleAvatar(
-            backgroundColor:
-                Colors.purple.withOpacity(0.1), // Light shade of purple
+            backgroundColor: Colors.purple.withOpacity(0.1), // Light shade of purple
             child: const Icon(Icons.person, color: Colors.purple),
           ),
           title: const Text('Profile'),
@@ -212,9 +217,29 @@ class SettingsBody extends StatelessWidget {
           ),
           title: const Text('Logout'),
           onTap: () {
-            context.read<AuthBloc>().add(AuthEventLogout());
-          },
-          
+            showDialog<void>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Confirm Logout'),
+                content: const Text('Are you sure you want to log out?'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('No'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.read<AuthBloc>().add(AuthEventLogout());
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Yes'),
+                  ),
+                ],
+              ),
+            );
+          },          
         ),
       ],
     );

@@ -8,4 +8,6 @@ class Config{
   static const double marginEight = 8.0;
 
   static const double fontSize = 16; 
+
+  static const String myHiveBox = 'myBox';
 }

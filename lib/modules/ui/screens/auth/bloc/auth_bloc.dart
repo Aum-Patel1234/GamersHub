@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamers_hub/modules/service/auth_service.dart';
 import 'package:gamers_hub/modules/service/game_auth_bearer_token_service.dart';
 import 'package:gamers_hub/modules/ui/shared/show_snack_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gamers_hub/utils/config/config.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../../models/user/user_model.dart';
 
@@ -28,13 +29,14 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
   final AuthService _authService = AuthService();
 
   FutureOr<void> _onAuthEventInitialize(AuthEventInitialize event, Emitter<AuthState> emit)async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var box = await Hive.openBox(Config.myHiveBox);
     const String accessToken = "access_token";
-    if(prefs.getString(accessToken) == null){
+    if(box.get(accessToken) == null){
       GameAuthBearerTokenService service = GameAuthBearerTokenService();
-      prefs.setString(accessToken,await service.getBearerToken());                    // get and set the accessToken if it is expires automatically
+      box.put(accessToken, await service.getBearerToken());           // get and set the accessToken if it is expires automatically
     }
-    log(prefs.getString(accessToken)!);
+    
+    log(box.get(accessToken)!);
     final response = _authService.isAuthenticated;
     return emit.forEach(response, onData: (isAuthenticated){       
       return state.copyWith(isAuthenticated: isAuthenticated, user: _authService.currentUser);
