@@ -9,7 +9,7 @@ class HeroCover extends StatelessWidget {
   });
 
   final String heroTag;
-  final String coverUrl;
+  final String? coverUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,14 @@ class HeroCover extends StatelessWidget {
                 body: Hero(
                   tag: heroTag,
                   child: Center(
-                    child: Image.network(
-                      coverUrl,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+                    child: 
+                    coverUrl == null 
+                      ? Image.asset('assets/images/default-user-profileImg.svg')
+                      : Image.network(
+                        coverUrl!,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                   ),
                 ),
                 floatingActionButton:
@@ -48,8 +51,11 @@ class HeroCover extends StatelessWidget {
           tag: heroTag,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              coverUrl,
+            child: 
+            coverUrl == null 
+            ? Image.asset('assets/images/default-user-profileImg.svg')
+            : Image.network(
+              coverUrl!,
               fit: BoxFit.cover,
               loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                 if (loadingProgress == null) {

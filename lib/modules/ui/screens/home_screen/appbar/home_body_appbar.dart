@@ -11,15 +11,23 @@ class HomeBodyAppbar extends StatelessWidget {
         children: [
           Row(
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: ClipOval(
-                  child: SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: HeroCover(heroTag: "profileImg", coverUrl: context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg"),
-                  )
-                ),
+              BlocBuilder<AuthBloc,AuthState>(
+                buildWhen: (previous, current) => previous != current,
+                builder: (context, snapshot) {  
+                  return IconButton(
+                    onPressed: () {},
+                    icon: ClipOval(
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle
+                        ),                    
+                        child: HeroCover(heroTag: "profileImg", coverUrl: context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg"),
+                      )
+                    ),
+                  );
+                },
               ),
               const SizedBox(width: 8),
               Expanded(

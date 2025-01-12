@@ -31,3 +31,14 @@ class AuthEventCreateUser extends AuthEvent{
 class AuthEventGoogleSignIn extends AuthEvent{}
 class AuthEventFacebookSignIn extends AuthEvent{}
 class AuthEventTwitterSignIn extends AuthEvent{}
+class AuthEventUpdateUserInfo extends AuthEvent{
+  final Map<String,dynamic> updatedFields;
+  final String id;
+
+  AuthEventUpdateUserInfo({required this.updatedFields, required this.id});
+}
+class AuthEventUpdateUserImg extends AuthEvent{
+  final String filePath;
+
+  AuthEventUpdateUserImg({required this.filePath});
+}

@@ -21,9 +21,11 @@ class _ApplicationState extends State<Application> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => context.read<AuthBloc>().add(AuthEventInitialize())
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<AuthBloc>().add(AuthEventInitialize());
+      }
+    });
   }
 
   @override

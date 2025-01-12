@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gamers_hub/modules/ui/screens/application.dart';
+import 'package:gamers_hub/modules/ui/screens/auth/edit_user/edit_profile_screen.dart';
 import 'package:gamers_hub/modules/ui/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:gamers_hub/modules/ui/screens/game_screen/game_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class RouteManager {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
-    final args = settings.arguments as Map<String,dynamic>;
+    final args = settings.arguments as Map<String,dynamic>?;
 
     switch (settings.name) {
       case '/':
@@ -18,9 +20,17 @@ class RouteManager {
         }
       case '/game':
         {
-          if(args.containsKey('game') && args.containsKey('cover')) {
+          if(args != null && args.containsKey('game') && args.containsKey('cover')) {
             return MaterialPageRoute(builder: (context) => GameScreen(game: args['game'],coverUrl: args['cover'],));
           }
+        }
+      case '/user-edit':
+        {
+          return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            child: const EditProfileScreen(),
+            settings: settings,
+          );
         }
     }
     

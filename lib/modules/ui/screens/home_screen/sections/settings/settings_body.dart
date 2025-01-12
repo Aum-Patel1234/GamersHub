@@ -17,53 +17,63 @@ class SettingsBody extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.zero,                             // to eliminate inherited padding
       children: [
-        ListTile(
-          leading: ClipOval(
-            // child: Image.network(
-            //   context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
-            //   fit: BoxFit.cover,
-            //   width: 60,
-            //   height: 60,
-            // ),
-            child: SizedBox(
-              width: 50,
-              height: 50,
-              child: HeroCover(heroTag: "profileImg", coverUrl: context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg"),
-            )
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                context.read<AuthBloc>().state.userModel!.username??"",
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
+        BlocBuilder<AuthBloc,AuthState>(
+          builder: (context , state) {
+            return ListTile(
+              leading: ClipOval(
+                // child: Image.network(
+                //   context.read<AuthBloc>().state.userModel!.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
+                //   fit: BoxFit.cover,
+                //   width: 60,
+                //   height: 60,
+                // ),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle
+                  ),
+                  child: HeroCover(heroTag: "profileImg", coverUrl: state.userModel?.profilePicture ?? "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg"),
+                )
               ),
-              const SizedBox(height: 4),
-              Text(
-                context.read<AuthBloc>().state.userModel!.email,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12,
-                ),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    context.read<AuthBloc>().state.userModel!.username,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    context.read<AuthBloc>().state.userModel!.email,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                onPressed: () {
-                  // debounce the notifications
-                },
-                icon: const Icon(Icons.edit),
-                color: const Color(ColorConfig.submitButtonGreen),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/user-edit',
+                      );
+                    },
+                    icon: const Icon(Icons.edit),
+                    color: const Color(ColorConfig.submitButtonGreen),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          }
         ),
         const Divider(),
         ListTile(

@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamers_hub/modules/service/auth_service.dart';
+import 'package:gamers_hub/modules/service/firebase_storage_service.dart';
 import 'package:gamers_hub/modules/service/game_auth_bearer_token_service.dart';
 import 'package:gamers_hub/modules/ui/shared/show_snack_bar.dart';
 import 'package:gamers_hub/utils/config/config.dart';
@@ -24,6 +25,8 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
     on<AuthEventGoogleSignIn>(_onAuthEventGoogleSignIn);
     on<AuthEventFacebookSignIn>(_onAuthEventFacebookSignIn);
     on<AuthEventTwitterSignIn>(_onAuthEventTwitterSignIn);
+    on<AuthEventUpdateUserInfo>(_onAuthEventUpdateUserInfo);
+    on<AuthEventUpdateUserImg>(_onAuthEventUpdateUserImg);
   }
   
   final AuthService _authService = AuthService();
@@ -171,5 +174,24 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
       showCustomSnackBar(message: "Facebook Sign in Completed!");
       emit(state.copyWith(isLoading: false, isAuthenticated: true, user: _authService.currentUser)); // emit successfull state
     });
+  }
+
+  FutureOr<void> _onAuthEventUpdateUserInfo(AuthEventUpdateUserInfo event, Emitter<AuthState> emit) async{    // all updates of the user are done here
+    
+  }
+
+  FutureOr<void> _onAuthEventUpdateUserImg(AuthEventUpdateUserImg event, Emitter<AuthState> emit) async{
+    final FirebaseStorageService  firebaseStorageService = FirebaseStorageService();
+    final String? imgUrl = await firebaseStorageService.uploadFile(id: state.userModel!.id, filePath: event.filePath);  // usermodel will not be null
+
+    // log('here $imgUrl');
+    if(imgUrl == null) return;
+    
+    UserModel updatedUserModel = state.userModel!.copyWith(profilePicture: imgUrl);
+    final Map<String,String> map = {
+      'profilePicture' : updatedUserModel.profilePicture!,    // updated picture will not be null
+    };
+    _authService.updateUserInfo(updatedFields: map, id: updatedUserModel.id);   // update the img in firebase
+    emit(state.copyWith(user: updatedUserModel));
   }
 }

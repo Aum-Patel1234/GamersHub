@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class UserModel {
   UserModel({
     required this.id,
-    this.username,
+    required this.username,
     required this.email,
     this.phoneNumber,
     this.profilePicture,
@@ -22,7 +22,7 @@ class UserModel {
   });
 
   final String id;
-  final String? username;
+  final String username;
   final String email;
   final String? phoneNumber;
   final String? profilePicture; 
@@ -99,7 +99,7 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'username': username ?? email.split("@")[0],
+      'username': username,
       'email': email,
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,

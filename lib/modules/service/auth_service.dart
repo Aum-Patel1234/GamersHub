@@ -22,9 +22,9 @@ class AuthService{
     return UserModel.fromFirebaseUser(_firebaseAuth.currentUser!);
   }
 
-  Future<DocumentSnapshot<Map<String,dynamic>>> _getUserDocumentSnapshot(String id)async{
-    return await _firebaseFirestore.collection(FirebaseCollections.usersCollectionPath).doc(id).get();
-  }
+  // Future<DocumentSnapshot<Map<String,dynamic>>> _getUserDocumentSnapshot(String id)async{
+  //   return await _firebaseFirestore.collection(FirebaseCollections.usersCollectionPath).doc(id).get();
+  // }
 
   // normal sign in with email and password
   Future<Either<String,UserCredential>> createUserWithEmailAndPassword({required String email,required String password}) async{
@@ -131,7 +131,16 @@ class AuthService{
       final ref = _firebaseFirestore.collection(FirebaseCollections.usersCollectionPath).doc(userModel.id);
       return Right(await ref.set(userModel.toMap()));
     }catch(e){
-      return const Left('Something went wrong..');
+      return Left('Error - ${e.toString()}');
+    }
+  }
+
+  Future<Either<String, void>> updateUserInfo({required Map<String,dynamic> updatedFields,required String id}) async{
+    try{
+      final ref = _firebaseFirestore.collection(FirebaseCollections.usersCollectionPath).doc(id);
+      return Right(await ref.update(updatedFields));
+    }catch(e){
+      return Left('Error - ${e.toString()}');
     }
   }
 }
