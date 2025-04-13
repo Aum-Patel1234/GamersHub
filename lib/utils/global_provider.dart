@@ -13,7 +13,11 @@ class GlobalProviders extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthBloc()),
-        BlocProvider(create: (context) => ThemeBloc(),),
+        BlocProvider(create: (context){
+          final ThemeBloc bloc = ThemeBloc();
+          bloc.add(InitializeThemeEvent());
+          return bloc;
+        }),
       ],
       child: child,
     );

@@ -8,3 +8,7 @@ class ToggleThemeEvent extends ThemeEvent {
   @override
   List<Object?> get props => [];
 }
+class InitializeThemeEvent extends ThemeEvent {
+  @override
+  List<Object?> get props => [];
+}

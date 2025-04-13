@@ -1,0 +1,2 @@
+/home/aum/Desktop/Android Development/gamers_hub/android/app/.cxx/Debug/12k2og1m/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/home/aum/Desktop/Android Development/gamers_hub/android/app/.cxx/Debug/12k2og1m/armeabi-v7a/CMakeFiles/edit_cache.dir
